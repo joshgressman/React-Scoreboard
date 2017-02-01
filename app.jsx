@@ -1,3 +1,24 @@
+var PLAYERS = [ //array of objects note All Caps on PLAYERS
+  {
+  name: "Josh Gressman",
+  score: 31,
+  id: 1,
+  },
+
+  {
+    name: "Player2",
+    score: 29,
+    id: 2,
+  },
+
+  {
+    name: "Bob Dole",
+    score: 5,
+    id: 3,
+  },
+];
+
+
 function Header(props) {
   return (
     <div className="header">
@@ -8,7 +29,7 @@ function Header(props) {
 
 Header.propTypes = {
   title: React.PropTypes.string.isRequired,
-  
+
 };
 
 Counter.propTypes = {
@@ -22,9 +43,9 @@ function Counter(props) {
        <div className="counter-score"> {props.score} </div>
        <button className="counter-action increment"> + </button>
          </div>
-      
+
   );
-  
+
 }
 
 function Player(props){
@@ -38,7 +59,7 @@ function Player(props){
         </div>
        </div>
   );
-  
+
 }
 
 Player.propTypes = {
@@ -50,10 +71,11 @@ function Application(props) {
   return (
    <div className="scoreboard">
       <Header title={props.title}/>
-        
+
       <div className="players">
-        <Player name="Josh Gressman" score ={31}/>  
-        <Player name="Player3" score={20} />
+        {props.players.map(function(player){
+          return <Player name={player.name} score={player.score} key={player.id} />
+         })}
       </div>
     </div>
   );
@@ -63,6 +85,11 @@ function Application(props) {
 
 Application.defaultProps = {
   title: "Scoreboard",
+  players: React.PropTypes.arrayOf(React.PropTypes.shape({
+  name: React.PropTypes.string.IsRequired,
+  score: React.PropTypes.number.isRequired,
+  id: React.PropTypes.number.isRequired,
+  })).isRequired,
 };
 
-ReactDOM.render(<Application title="My Scoreboard" />, document.getElementById('container'));
+ReactDOM.render(<Application players={PLAYERS} />, document.getElementById('container'));
